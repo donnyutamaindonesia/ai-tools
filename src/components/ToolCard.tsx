@@ -26,24 +26,11 @@ export default function ToolCard({ icon, title, description, placeholder, tool, 
         body: JSON.stringify({ tool, prompt: input }),
       })
 
-      if (!res.ok) throw new Error('请求失败')
-
-      const reader = res.body!.getReader()
-      const decoder = new TextDecoder()
-
-      while (true) {
-        const { done, value } = await reader.read()
-        if (done) break
-        const lines = decoder.decode(value).split('\n')
-        for (const line of lines) {
-          if (line.startsWith('data: ') && line !== 'data: [DONE]') {
-            const data = JSON.parse(line.slice(6))
-            setOutput(prev => prev + data.text)
-          }
-        }
-      }
-    } catch {
-      setOutput('出错了，请稍后重试。')
+      const data = await res.json()
+      if (!res.ok) throw new Error(data.error || '请求失败')
+      setOutput(data.text)
+    } catch (e: unknown) {
+      setOutput(e instanceof Error ? e.message : '出错了，请稍后重试。')
     }
     setLoading(false)
   }

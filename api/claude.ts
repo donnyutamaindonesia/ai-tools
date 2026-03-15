@@ -27,27 +27,17 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   }
 
   try {
-    res.setHeader('Content-Type', 'text/event-stream')
-    res.setHeader('Cache-Control', 'no-cache')
-    res.setHeader('Connection', 'keep-alive')
-
-    const stream = client.messages.stream({
-      model: 'claude-opus-4-6',
+    const message = await client.messages.create({
+      model: 'claude-haiku-4-5',
       max_tokens: 2048,
       system: systemPrompt,
       messages: [{ role: 'user', content: prompt }],
     })
 
-    for await (const event of stream) {
-      if (event.type === 'content_block_delta' && event.delta.type === 'text_delta') {
-        res.write(`data: ${JSON.stringify({ text: event.delta.text })}\n\n`)
-      }
-    }
-
-    res.write('data: [DONE]\n\n')
-    res.end()
+    const text = message.content[0].type === 'text' ? message.content[0].text : ''
+    return res.status(200).json({ text })
   } catch (error) {
     console.error(error)
-    res.status(500).json({ error: 'AI 服务出错，请稍后重试' })
+    return res.status(500).json({ error: 'AI 服务出错，请稍后重试' })
   }
 }
