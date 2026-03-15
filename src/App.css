@@ -1,0 +1,153 @@
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: 'PingFang SC', 'Microsoft YaHei', sans-serif;
+  background: #f5f7fa;
+  min-height: 100vh;
+  color: #333;
+}
+
+.app {
+  max-width: 860px;
+  margin: 0 auto;
+  padding: 0 16px 40px;
+}
+
+.header {
+  text-align: center;
+  padding: 40px 0 24px;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  font-size: 28px;
+  font-weight: 700;
+  color: #6c63ff;
+  margin-bottom: 8px;
+}
+
+.tagline { color: #888; font-size: 15px; }
+
+.nav {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 24px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.nav button {
+  padding: 10px 18px;
+  border: 2px solid #eee;
+  border-radius: 50px;
+  background: white;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.2s;
+  color: #555;
+  width: auto;
+}
+
+.nav button:hover { border-color: #6c63ff; color: #6c63ff; }
+.nav button.active { background: #6c63ff; border-color: #6c63ff; color: white; }
+
+.tool-card {
+  background: white;
+  border-radius: 16px;
+  padding: 28px;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.06);
+}
+
+.tool-header {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 20px;
+}
+
+.tool-icon { font-size: 36px; }
+.tool-header h2 { font-size: 20px; margin-bottom: 4px; }
+.tool-header p { font-size: 14px; color: #888; }
+
+textarea {
+  width: 100%;
+  padding: 14px;
+  border: 1.5px solid #eee;
+  border-radius: 10px;
+  font-size: 15px;
+  font-family: inherit;
+  resize: vertical;
+  outline: none;
+  transition: border-color 0.2s;
+  margin-bottom: 12px;
+  line-height: 1.6;
+}
+
+textarea:focus { border-color: #6c63ff; }
+
+button {
+  width: 100%;
+  padding: 13px;
+  background: #6c63ff;
+  color: white;
+  border: none;
+  border-radius: 10px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s, transform 0.1s;
+}
+
+button:hover:not(:disabled) { background: #574fd6; }
+button:active:not(:disabled) { transform: scale(0.99); }
+button:disabled { opacity: 0.5; cursor: not-allowed; }
+
+.output {
+  margin-top: 20px;
+  border: 1.5px solid #ebebff;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.output-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 16px;
+  background: #f8f8ff;
+  border-bottom: 1.5px solid #ebebff;
+  font-size: 14px;
+  color: #666;
+}
+
+.copy-btn {
+  width: auto;
+  padding: 4px 12px;
+  font-size: 13px;
+  font-weight: 400;
+  background: #6c63ff;
+  border-radius: 6px;
+}
+
+.output-text {
+  padding: 16px;
+  font-size: 15px;
+  line-height: 1.8;
+  white-space: pre-wrap;
+  color: #333;
+}
+
+footer {
+  text-align: center;
+  margin-top: 40px;
+  color: #bbb;
+  font-size: 13px;
+}
+
+@media (max-width: 480px) {
+  .nav button { padding: 8px 14px; font-size: 13px; }
+  .tool-card { padding: 20px 16px; }
+}
