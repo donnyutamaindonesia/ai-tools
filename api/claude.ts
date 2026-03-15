@@ -1,7 +1,4 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node'
-import Anthropic from '@anthropic-ai/sdk'
-
-const client = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY })
 
 const SYSTEM_PROMPTS: Record<string, string> = {
   writing: '你是一位专业的中文写作助手。帮助用户写作、润色文章，使内容更加流畅、专业。',
@@ -27,14 +24,24 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   }
 
   try {
-    const message = await client.messages.create({
-      model: 'claude-haiku-4-5',
-      max_tokens: 2048,
-      system: systemPrompt,
-      messages: [{ role: 'user', content: prompt }],
+    const response = await fetch('https://api.deepseek.com/chat/completions', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${process.env.DEEPSEEK_API_KEY}`,
+      },
+      body: JSON.stringify({
+        model: 'deepseek-chat',
+        messages: [
+          { role: 'system', content: systemPrompt },
+          { role: 'user', content: prompt },
+        ],
+        max_tokens: 2048,
+      }),
     })
 
-    const text = message.content[0].type === 'text' ? message.content[0].text : ''
+    const data = await response.json()
+    const text = data.choices?.[0]?.message?.content || ''
     return res.status(200).json({ text })
   } catch (error) {
     console.error(error)
